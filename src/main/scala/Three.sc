@@ -13,9 +13,25 @@ object List {
     case Cons(x, xs) => x * product(xs)
   }
 
-  def apply[A](as: A*): List[A] =
+  def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
+  }
+
+  def drop[A](l: List[A], n: Int): List[A] = {
+    if (n <= 0) l
+    else l match {
+      case Nil => Nil
+      case Cons(_,t) => drop(t, n-1)
+    }
+  }
+
+  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = {
+    l match {
+      case Cons(h, t) if f(h) => dropWhile(t, f)
+      case _ => l
+    }
+  }
 }
 
 val aList = List(1, 2, 3)
